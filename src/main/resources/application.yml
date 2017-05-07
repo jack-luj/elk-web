@@ -1,0 +1,58 @@
+server.port: 8080 # Server HTTP port.
+
+# Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
+logging:
+    level:
+        org.hibernate: WARN
+        org.springframework: WARN
+    file: web.log
+
+#是否打印http请求日志
+logFilter.disabled: false
+#Mybatis配置
+mybatis.config: classpath:mybatis-config.xml
+# Spring settings
+
+spring.jackson.date-format: yyyy-MM-dd HH:mm:ss
+spring.jackson.time-zone: GMT+8
+
+spring:
+    profiles.active: dev
+    datasource:
+            type: com.alibaba.druid.pool.DruidDataSource
+            url: jdbc:mysql://127.0.0.1:3306/elk?characterEncoding=utf8&allowMultiQueries=true
+            username: root
+            password: 123456
+            initialSize: 1
+            minIdle: 1
+            maxActive: 10
+            maxWait: 60000
+            timeBetweenEvictionRunsMillis: 60000
+            minEvictableIdleTimeMillis: 30000
+            validationQuery: SELECT 'x'
+            testWhileIdle: true
+            testOnBorrow: true
+            testOnReturn: false
+            #配置监控统计拦截的filters
+            filters: stat
+            #打开PSCache，并且指定每个连接上PSCache的大小
+            poolPreparedStatements: true
+            maxPoolPreparedStatementPerConnectionSize: 20
+    jpa:
+        show-sql: true
+        hibernate:
+            # Hibernate DDL  auto: create, create-drop, update, validate
+            ddl-auto: validate
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+            properties:
+                hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    redis:
+        host: 127.0.0.1
+        port: 6379
+        password:
+        database: 0
+        pool:
+            max-idle: 8
+            min-idle: 0
+            max-active: 8
+            max-wait: -1

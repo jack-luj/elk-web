@@ -1,0 +1,16 @@
+.gradle/
+.idea/
+*.iml
+*.ipr
+*.iws
+*.log
+*.log.*
+build/
+out/
+/src/*/resources/static/lib/
+/gradle.properties
+/src/*/resources/application-*.properties
+/src/*/resources/application-*.yml
+/src/*/resources/*_zh_CN.properties
+
+/src/main/java/com/github/jackl/elk/utils/GitVer.java

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.jackl.elk.dao.RoleDao">
+
+	<select id="queryObject" resultType="com.github.jackl.elk.entity.RoleEntity">
+		select * from t_role where role_id = #{value}
+	</select>
+	
+	 <select id="queryList" resultType="com.github.jackl.elk.entity.RoleEntity">
+		select * from t_role order by role_id asc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<select id="queryTotal" resultType="int">
+		select count(*) from t_role
+	</select>
+	
+	<insert id="save" parameterType="com.github.jackl.elk.entity.RoleEntity" useGeneratedKeys="true" keyProperty="roleId">
+		insert into t_role
+		(
+			`role_id`, 
+			`role_name`, 
+			`remark`,
+			`create_time`
+		)
+		values
+		(
+			#{roleId}, 
+			#{roleName}, 
+			#{remark},
+			#{createTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.github.jackl.elk.entity.RoleEntity">
+		update t_role
+		<set> 
+			<if test="roleName != null">`role_name` = #{roleName}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where role_id = #{roleId}
+	</update>
+	
+	<delete id="deleteBatch">
+		delete from t_role where role_id in
+		<foreach item="roleId" collection="array" open="(" separator="," close=")">
+			#{roleId}
+		</foreach>
+		;
+		delete from t_role_menu where role_id in
+		<foreach item="roleId" collection="array" open="(" separator="," close=")">
+			#{roleId}
+		</foreach>
+		;
+		delete from t_user_role where role_id in
+		<foreach item="roleId" collection="array" open="(" separator="," close=")">
+			#{roleId}
+		</foreach>
+	</delete>
+	
+
+</mapper>

@@ -1,0 +1,41 @@
+var ${pk.attrname} = T.p("${pk.attrname}");
+var vm = new Vue({
+	el:'#rrapp',
+	data:{
+		title:"新增",
+		${classname}:{}
+	},
+	created: function() {
+		if(${pk.attrname} != null){
+			this.title = "修改";
+			this.getInfo(${pk.attrname})
+		}
+    },
+	methods: {
+		getInfo: function(${pk.attrname}){
+			$.get("../api/${pathName}/info/"+${pk.attrname}, function(r){
+                vm.${classname} = r.${classname};
+            });
+		},
+		saveOrUpdate: function (event) {
+			var url = vm.${classname}.${pk.attrname} == null ? "../api/${pathName}/save" : "../api/${pathName}/update";
+			$.ajax({
+				type: "POST",
+			    url: url,
+			    data: JSON.stringify(vm.${classname}),
+			    success: function(r){
+			    	if(r.status === 0){
+						alert('操作成功', function(index){
+							vm.back();
+						});
+					}else{
+						alert(r.message);
+					}
+				}
+			});
+		},
+		back: function (event) {
+			history.go(-1);
+		}
+	}
+});

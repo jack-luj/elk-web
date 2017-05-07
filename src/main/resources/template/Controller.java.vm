@@ -1,0 +1,109 @@
+package ${package}.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import ${package}.utils.JsonResult;
+import ${package}.entity.${className}Entity;
+import ${package}.service.${className}Service;
+import ${package}.utils.PageUtils;
+
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("api/${pathName}")
+public class ${className}Controller {
+	@Autowired
+	private ${className}Service ${classname}Service;
+	
+
+	/**
+	 * 列表
+	 */
+	@ResponseBody
+	@RequestMapping("/list")
+	@RequiresPermissions("${pathName}:list")
+	public JsonResult list(Integer page, Integer limit){
+		Map<String, Object> map = new HashMap<>();
+		map.put("offset", (page - 1) * limit);
+		map.put("limit", limit);
+		
+		//查询列表数据
+		List<${className}Entity> ${classname}List = ${classname}Service.queryList(map);
+		int total = ${classname}Service.queryTotal(map);
+		
+		PageUtils pageUtil = new PageUtils(${classname}List, total, limit, page);
+		
+		return JsonResult.ok().put("page", pageUtil);
+	}
+	
+	
+	/**
+	 * 信息
+	 */
+	@ResponseBody
+	@RequestMapping("/info/{${pk.attrname}}")
+	@RequiresPermissions("${pathName}:info")
+	public JsonResult info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
+		${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
+		
+		return JsonResult.ok().put("${classname}", ${classname});
+	}
+	
+	/**
+	 * 保存
+	 */
+	@ResponseBody
+	@RequestMapping("/save")
+	@RequiresPermissions("${pathName}:save")
+	public JsonResult save(@RequestBody ${className}Entity ${classname}){
+        verifyForm(${classname});
+		${classname}Service.save(${classname});
+		
+		return JsonResult.ok();
+	}
+	
+	/**
+	 * 修改
+	 */
+	@ResponseBody
+	@RequestMapping("/update")
+	@RequiresPermissions("${pathName}:update")
+	public JsonResult update(@RequestBody ${className}Entity ${classname}){
+        verifyForm(${classname});
+		${classname}Service.update(${classname});
+		
+		return JsonResult.ok();
+	}
+	
+	/**
+	 * 删除
+	 */
+	@ResponseBody
+	@RequestMapping("/delete")
+	@RequiresPermissions("${pathName}:delete")
+	public JsonResult delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
+		${classname}Service.deleteBatch(${pk.attrname}s);
+		
+		return JsonResult.ok();
+	}
+
+    /**
+ * 验证参数是否正确
+ */
+    private void verifyForm(${className}Entity ${classname}){
+
+
+    }
+
+}
