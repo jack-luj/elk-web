@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -34,6 +35,51 @@ public class RedisTool {
         this.objectRedisTemplate.setValueSerializer(this.objectRedisTemplate.getDefaultSerializer());
         this.objectRedisTemplate.afterPropertiesSet();
     }
+
+
+    /**
+     * 入队
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public Long inList(String key, Object value) {
+        return objectRedisTemplate.opsForList().rightPush(key, value);
+    }
+
+    /**
+     * 出队
+     *
+     * @param key
+     * @return
+     */
+    public Object outList(String key) {
+        return objectRedisTemplate.opsForList().leftPop(key);
+    }
+
+    /**
+     * 栈/队列长
+     *
+     * @param key
+     * @return
+     */
+    public Long lengthList(String key) {
+        return objectRedisTemplate.opsForList().size(key);
+    }
+
+    /**
+     * 范围检索
+     *
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    public List<Object> rangeList(String key, long start, long end) {
+        return objectRedisTemplate.opsForList().range(key, start, end);
+    }
+
 
 
     /**

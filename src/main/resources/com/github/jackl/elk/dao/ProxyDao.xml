@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.jackl.elk.dao.ProxyDao">
+
+	<select id="queryObject" resultType="com.github.jackl.elk.entity.ProxyEntity">
+		select * from t_proxy where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.github.jackl.elk.entity.ProxyEntity">
+		select * from t_proxy 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from t_proxy 
+	</select>
+	 
+	<insert id="save" parameterType="com.github.jackl.elk.entity.ProxyEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into t_proxy
+		(
+			`name`, 
+			`ip`, 
+			`port`, 
+			`update_time`
+		)
+		values
+		(
+			#{name}, 
+			#{ip}, 
+			#{port}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.github.jackl.elk.entity.ProxyEntity">
+		update t_proxy 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="ip != null">`ip` = #{ip}, </if>
+			<if test="port != null">`port` = #{port}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from t_proxy where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from t_proxy where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
