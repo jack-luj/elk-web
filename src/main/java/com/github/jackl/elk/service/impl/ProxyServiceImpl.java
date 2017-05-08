@@ -24,7 +24,8 @@ public class ProxyServiceImpl implements ProxyService {
 	@Autowired
 	private RedisTool redisTool;
 
-	private String redisKey="_proxies";
+	String findProxiesKey="_find_proxies";
+	String availableProxiesKey="_available_proxies";
 	@Override
 	public ProxyEntity queryObject(Long id){
 		return proxyDao.queryObject(id);
@@ -34,9 +35,16 @@ public class ProxyServiceImpl implements ProxyService {
 	public List queryList(Map<String, Object> map){
 		int offset=(Integer)map.get("offset");
 		int limit=(Integer)map.get("limit");
-		long total=redisTool.lengthList(redisKey);
+		String type=(String)map.get("type");
+		String _key="";
+		if("all".equals(type)){
+			_key=findProxiesKey;
+		}else{
+			_key=availableProxiesKey;
+		}
+		long total=redisTool.lengthList(_key);
 		int end=(int)(offset+limit>total?total:offset+limit);
-		List proxyStrList = redisTool.rangeList(redisKey,offset,end-1);
+		List proxyStrList = redisTool.rangeList(_key,offset,end-1);
 		List proxyList=new ArrayList<>();
 		for (int i=0;i<proxyStrList.size();i++){
 			proxyList.add(JSON.parse((String)proxyStrList.get(i)));
@@ -46,7 +54,15 @@ public class ProxyServiceImpl implements ProxyService {
 	
 	@Override
 	public int queryTotal(Map<String, Object> map){
-		return (int)redisTool.lengthList(redisKey).longValue();
+		String type=(String)map.get("type");
+		String _key="";
+		if("all".equals(type)){
+			_key=findProxiesKey;
+		}else{
+			_key=availableProxiesKey;
+		}
+
+		return (int)redisTool.lengthList(_key).longValue();
 	}
 	
 	@Override

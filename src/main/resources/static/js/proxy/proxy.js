@@ -5,7 +5,8 @@ $(function () {
         colModel: [			
 			{ label: 'id', name: 'id', width: 50, key: true },
 			{ label: 'ip', name: 'ip', width: 80 },
-			{ label: 'port', name: 'port', width: 80 },
+			{ label: 'port', name: 'port', width: 50 },
+			{ label: '请求成功耗时', name: 'successfulTotalTime', width: 80 },
 			{ label: '最近一次成功时间', name: 'lastSuccessfulTime', width: 80 }
         ],
 		viewrecords: true,
