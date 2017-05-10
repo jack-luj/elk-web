@@ -47,7 +47,7 @@ public class ProxyServiceImpl implements ProxyService {
 		List proxyStrList = redisTool.rangeList(_key,offset,end-1);
 		List proxyList=new ArrayList<>();
 		for (int i=0;i<proxyStrList.size();i++){
-			proxyList.add(JSON.parse((String)proxyStrList.get(i)));
+			proxyList.add(JSON.parseObject((String)proxyStrList.get(i),Proxy.class));
 		}
 		return proxyList;
 	}

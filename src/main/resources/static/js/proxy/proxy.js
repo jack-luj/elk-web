@@ -3,18 +3,45 @@ $(function () {
         url: '../api/proxy/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', width: 50, key: true },
-			{ label: 'ip', name: 'ip', width: 80 },
+			{ label: 'ip', name: 'ip', width: 70 },
 			{ label: 'port', name: 'port', width: 50 },
-			{ label: '请求成功耗时', name: 'successfulTotalTime', width: 80 },
-			{ label: '最近一次成功时间', name: 'lastSuccessfulTime', width: 80 }
+			{ label: '成功次数', name: 'successfulTimes', width: 40 },
+			{ label: '失败次数', name: 'failureTimes', width: 40 },
+			{ label: '请求成功耗时', name: 'successfulTotalTime', width: 60 },
+			{ label: '最近一次检测成功', name: 'lastSuccessfulTime', width: 60, formatter: function(value, options, row){
+            				var date = new Date(value);
+                            Y = date.getFullYear(),
+                            m = date.getMonth() + 1,
+                            d = date.getDate(),
+                            H = date.getHours(),
+                            i = date.getMinutes(),
+                            s = date.getSeconds();
+                            if (m < 10) {
+                            m = '0' + m;
+                            }
+                            if (d < 10) {
+                            d = '0' + d;
+                            }
+                            if (H < 10) {
+                            H = '0' + H;
+                            }
+                            if (i < 10) {
+                            i = '0' + i;
+                            }
+                            if (s < 10) {
+                            s = '0' + s;
+                            }
+                            <!-- 获取时间格式 2017-01-03 10:13:48 -->
+                             var t = Y+'-'+m+'-'+d+' '+H+':'+i+':'+s;
+                            return t;
+            			}}
         ],
 		viewrecords: true,
         height: 400,
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 
-        rownumWidth: 25, 
+        rownumWidth: 40,
         autowidth:true,
         multiselect: true,
         pager: "#jqGridPager",

@@ -1,4 +1,4 @@
-server.port: 8080 # Server HTTP port.
+server.port: 8088 # Server HTTP port.
 
 # Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
 logging:
