@@ -20,9 +20,9 @@ public interface ProxyService {
 
 	int queryTotal(Map<String, Object> map);
 	
-	void save(ProxyEntity proxy);
+	void save(Proxy proxy);
 	
-	void update(ProxyEntity proxy);
+	void update(Proxy proxy);
 	
 	void delete(Long id);
 	

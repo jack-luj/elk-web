@@ -1,5 +1,6 @@
 package com.github.jackl.elk;
 
+import com.github.jackl.elk.proxy.fetch.ProxyProcessor;
 import com.github.jackl.elk.utils.GitVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,8 @@ public class Application implements CommandLineRunner {
     private Logger _logger= LoggerFactory.getLogger(Application.class);
     @Autowired
     private GitVer gitVer;
-
+    @Autowired
+    ProxyProcessor proxyProcessor;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -28,5 +30,6 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         _logger.info("elk-web启动成功."+gitVer.getVersion());
+        proxyProcessor.work();
     }
 }

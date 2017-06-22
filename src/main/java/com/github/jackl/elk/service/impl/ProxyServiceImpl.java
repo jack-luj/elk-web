@@ -66,13 +66,15 @@ public class ProxyServiceImpl implements ProxyService {
 	}
 	
 	@Override
-	public void save(ProxyEntity proxy){
-		proxyDao.save(proxy);
+	public void save(Proxy proxy){
+		String _key = "";
+		//_key = findProxiesKey;
+		_key = availableProxiesKey;
+		redisTool.inList(_key, JSON.toJSONString(proxy));
 	}
 	
 	@Override
-	public void update(ProxyEntity proxy){
-		proxyDao.update(proxy);
+	public void update(Proxy proxy){
 	}
 	
 	@Override

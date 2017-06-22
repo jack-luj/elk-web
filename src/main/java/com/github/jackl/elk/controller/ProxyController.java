@@ -70,7 +70,7 @@ public class ProxyController {
 	@ResponseBody
 	@RequestMapping("/save")
 	@RequiresPermissions("proxy:save")
-	public JsonResult save(@RequestBody ProxyEntity proxy){
+	public JsonResult save(@RequestBody Proxy proxy){
         verifyForm(proxy);
 		proxyService.save(proxy);
 		
@@ -83,7 +83,7 @@ public class ProxyController {
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("proxy:update")
-	public JsonResult update(@RequestBody ProxyEntity proxy){
+	public JsonResult update(@RequestBody Proxy proxy){
         verifyForm(proxy);
 		proxyService.update(proxy);
 		
@@ -105,7 +105,7 @@ public class ProxyController {
     /**
  * 验证参数是否正确
  */
-    private void verifyForm(ProxyEntity proxy){
+    private void verifyForm(Proxy proxy){
 
 
     }
